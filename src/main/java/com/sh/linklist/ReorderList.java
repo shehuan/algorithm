@@ -1,5 +1,7 @@
 package com.sh.linklist;
 
+import jdk.javadoc.internal.doclets.formats.html.markup.Head;
+
 /**
  * 给你一个链表，链表中结点的顺序是L0→ L1→ L2→…→ Ln-1→ Ln，
  * 请问如何重排链表使得结点的顺序变成L0→ Ln→ L1→ Ln-1→ L2→ Ln-2→…？
@@ -19,7 +21,19 @@ public class ReorderList {
                 slow = slow.next;
             }
         }
-        return slow.next;
+        // head2 就是后半部分的头结点
+        Node head2 = slow.next;
+        // 反转链表
+        head2 = new ReverseList().reverse(head2);
+        // 将前半部分尾结点的next置为null，前半部分的头结点还是head
+        slow.next = null;
+
+        return reorder(head, head2);
+    }
+
+    private Node reorder(Node head1, Node head2) {
+//        Node dummy = new Node(0);
+//        dummy.next = head1;
     }
 
     public static void main(String[] args) {
