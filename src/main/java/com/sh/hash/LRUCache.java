@@ -15,12 +15,12 @@ import java.util.Map;
  */
 public class LRUCache<T, V> {
     // 保存数据
-    private Map<T, Node3<T, V>> map;
+    private final Map<T, Node3<T, V>> map;
     // 缓存的容量
-    private int capacity;
+    private final int capacity;
     // 创建两个哨兵节点，分别在链表的头尾，方便添加、删除节点
-    private Node3<T, V> head;
-    private Node3<T, V> tail;
+    private final Node3<T, V> head;
+    private final Node3<T, V> tail;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
