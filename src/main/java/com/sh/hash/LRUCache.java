@@ -1,8 +1,5 @@
 package com.sh.hash;
 
-import com.sh.linklist.Node;
-
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +32,12 @@ public class LRUCache<T, V> {
         tail.prev = head;
     }
 
+    /**
+     * 查询缓存
+     *
+     * @param key
+     * @return
+     */
     public V get(T key) {
         Node3<T, V> node = map.get(key);
         if (node == null) {
@@ -45,6 +48,12 @@ public class LRUCache<T, V> {
         return node.value;
     }
 
+    /**
+     * 添加缓存
+     *
+     * @param key
+     * @param value
+     */
     public void put(T key, V value) {
         if (map.containsKey(key)) {
             // 将节点移动到链表尾部
@@ -57,7 +66,7 @@ public class LRUCache<T, V> {
                 // 删除头节点
                 deleteNode(toBeDeleted);
                 // 从map删除对应键值对
-                map.remove(head.next.key);
+                map.remove(toBeDeleted.key);
             }
             Node3<T, V> node = new Node3<>(key, value);
             // 将新节点添加到链表尾部
@@ -67,21 +76,50 @@ public class LRUCache<T, V> {
         }
     }
 
+    /**
+     * 将某个几点移动到链表尾部
+     *
+     * @param node
+     */
     private void moveToTail(Node3<T, V> node) {
         // 先删掉节点，再插入到尾部
         deleteNode(node);
         insertTail(node);
     }
 
+    /**
+     * 删除某个节点
+     *
+     * @param node
+     */
     private void deleteNode(Node3<T, V> node) {
         node.prev.next = node.next;
         node.next.prev = node.prev;
     }
 
+    /**
+     * 在链表尾部插入某个节点
+     *
+     * @param node
+     */
     private void insertTail(Node3<T, V> node) {
         tail.prev.next = node;
         node.prev = tail.prev;
         node.next = tail;
         tail.prev = node;
+    }
+
+    public static void main(String[] args) {
+        LRUCache<Integer, String> cache = new LRUCache<>(5);
+        cache.put(1, "1");
+        cache.put(2, "2");
+        cache.put(3, "3");
+        cache.put(4, "4");
+        cache.put(5, "5");
+        cache.put(6, "6");
+        cache.get(1);
+        cache.get(2);
+        cache.put(3, "33");
+        System.out.println("---");
     }
 }
